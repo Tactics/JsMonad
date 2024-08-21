@@ -3,8 +3,14 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig([
     {
+        keepNames: true, // very important, else instance of check will not work.
+        minifyIdentifiers: false,
         dts: true, // Generate .d.ts files
-        minify: true, // Minify output
+        minify: 'terser', // Minify output
+        terserOptions: {
+            keep_classnames: true,
+            keep_fnames: true,
+        },
         sourcemap: 'inline', // Generate sourcemaps
         treeshake: true, // Remove unused code
         splitting: false, // Split output into chunks

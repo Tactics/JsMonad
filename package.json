@@ -1,6 +1,6 @@
 {
   "name": "@tactics/js-monad",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utilities to help ease use of monads in javascript",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -25,6 +25,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "terser": "^5.31.6",
     "tsup": "^8.1.0"
   },
   "dependencies": {
