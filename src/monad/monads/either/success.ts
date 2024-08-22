@@ -1,16 +1,20 @@
 import { Either } from "@/monad/either";
-import { OptionalResult, Result } from "@/monad/result";
+import { AsyncResult, OptionalResult, Result } from "@/monad/result";
 import { Contexts } from "@/monad/context/contexts";
 import { Traces } from "@/monad/trace/traces";
 import { Trace } from "@/monad/trace/trace";
 import { Context } from "@/monad/context/context";
 import { TraceCollection } from "@/monad/trace/trace-collection";
 import { ContextCollection } from "@/monad/context/context-collection";
+import { Failure } from "@/monad/monads/either/failure";
+
+const SuccessSymbol = Symbol("JsMonadSuccessSymbol");
 
 export class Success<T> implements Either<T> {
   private readonly value: T;
   private readonly traces: Traces;
   private readonly contexts: Contexts;
+  [SuccessSymbol] = true;
 
   private constructor(value: T, traces: Traces, contexts: Contexts) {
     this.value = value;
@@ -68,4 +72,10 @@ export class Success<T> implements Either<T> {
     this.contexts.remove(key);
     return this;
   }
+}
+
+export function isSuccess<T>(
+  obj: AsyncResult<T> | Result<T>,
+): obj is Success<T> {
+  return obj && (obj as Success<T>)[SuccessSymbol] === true;
 }

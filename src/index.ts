@@ -1,8 +1,8 @@
 // Monads
-export { Failure } from "@/monad/monads/either/failure";
-export { Success } from "@/monad/monads/either/success";
-export { None } from "@/monad/monads/optional/none";
-export { Some } from "@/monad/monads/optional/some";
+export { Failure, isFailure } from "@/monad/monads/either/failure";
+export { Success, isSuccess } from "@/monad/monads/either/success";
+export { None, isNone } from "@/monad/monads/optional/none";
+export { Some, isSome } from "@/monad/monads/optional/some";
 
 // Context
 export type { Context } from "@/monad/context/context";
@@ -17,5 +17,10 @@ export type { Traces } from "@/monad/trace/traces";
 
 export type { Optional } from "@/monad/optional";
 export type { Either } from "@/monad/either";
-export type { AsyncResult, Result, OptionalResult } from "@/monad/result";
-export { Awaiting } from "@/monad/awaiting";
+export type {
+  AsyncResult,
+  Result,
+  OptionalResult,
+  AsyncOptionalResult,
+} from "@/monad/result";
+export { Awaiting, isAwaiting } from "@/monad/awaiting";

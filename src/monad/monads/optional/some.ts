@@ -1,7 +1,13 @@
 import { Optional } from "@/monad/optional";
+import { AsyncOptionalResult, OptionalResult } from "@/monad/result";
+import { None } from "@/monad/monads/optional/none";
+
+const SomeSymbol = Symbol("JsMonadSomeSymbol");
 
 export class Some<T> implements Optional<T> {
   private readonly value: T;
+
+  [SomeSymbol] = true;
 
   private constructor(value: T) {
     this.value = value;
@@ -23,4 +29,10 @@ export class Some<T> implements Optional<T> {
     const newValue = fn(this.value);
     return Some.of(newValue);
   }
+}
+
+export function isSome<T>(
+  obj: OptionalResult<any> | AsyncOptionalResult<any>,
+): obj is Some<T> {
+  return obj && (obj as Some<T>)[SomeSymbol] === true;
 }

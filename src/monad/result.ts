@@ -5,5 +5,7 @@ import { Some } from "@/monad/monads/optional/some";
 import { Awaiting } from "@/monad/awaiting";
 
 export type OptionalResult<T> = None | Some<T>;
+export type AsyncOptionalResult<T> = Result<T> | Awaiting;
+
 export type Result<T> = Success<T> | Failure;
 export type AsyncResult<T> = Result<T> | Awaiting;

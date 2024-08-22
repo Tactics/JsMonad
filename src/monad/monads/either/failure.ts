@@ -1,5 +1,5 @@
 import { Either } from "@/monad/either";
-import { OptionalResult, Result } from "@/monad/result";
+import { AsyncResult, OptionalResult, Result } from "@/monad/result";
 import { Traces } from "@/monad/trace/traces";
 import { Trace } from "@/monad/trace/trace";
 import { Contexts } from "@/monad/context/contexts";
@@ -8,6 +8,8 @@ import { TraceCollection } from "@/monad/trace/trace-collection";
 import { TraceCommon } from "@/monad/trace/trace-common";
 import { ContextCollection } from "@/monad/context/context-collection";
 
+const FailureSymbol = Symbol("JsMonadFailureSymbol");
+
 export class Failure implements Either<never>, Error {
   private readonly traces: Traces;
   private readonly contexts: Contexts;
@@ -15,6 +17,8 @@ export class Failure implements Either<never>, Error {
   code: string;
   name: string;
   previous: Error | null;
+
+  [FailureSymbol] = true;
 
   private constructor(
     message: string,
@@ -100,4 +104,8 @@ export class Failure implements Either<never>, Error {
     this.contexts.remove(key);
     return this;
   }
+}
+
+export function isFailure<T>(obj: AsyncResult<T> | Result<T>): obj is Failure {
+  return obj && (obj as Failure)[FailureSymbol] === true;
 }
