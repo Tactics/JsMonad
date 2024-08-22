@@ -109,3 +109,15 @@ export class Failure implements Either<never>, Error {
 export function isFailure<T>(obj: AsyncResult<T> | Result<T>): obj is Failure {
   return obj && (obj as Failure)[FailureSymbol] === true;
 }
+
+// Returns 'True' when one value is instance of Failure.
+export function hasFailure(
+  obj: AsyncResult<any> | AsyncResult<any>[],
+): obj is Failure | Failure[] {
+  if (Array.isArray(obj)) {
+    return obj.some(
+      (item) => item && (item as Failure)[FailureSymbol] === true,
+    );
+  }
+  return obj && (obj as Failure)[FailureSymbol] === true;
+}

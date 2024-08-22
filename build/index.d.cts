@@ -36,6 +36,7 @@ declare class Success<T> implements Either<T> {
     clearContext(key: string): Result<T>;
 }
 declare function isSuccess<T>(obj: AsyncResult<T> | Result<T>): obj is Success<T>;
+declare function allSuccessful<T>(obj: AsyncResult<any> | AsyncResult<any>[]): obj is Success<T> | Success<T>[];
 
 interface Optional<T> {
     bind<U>(fn: (value: T) => Optional<U>): Optional<U>;
@@ -114,6 +115,7 @@ declare class Failure implements Either<never>, Error {
     clearContext(key: string): Result<never>;
 }
 declare function isFailure<T>(obj: AsyncResult<T> | Result<T>): obj is Failure;
+declare function hasFailure(obj: AsyncResult<any> | AsyncResult<any>[]): obj is Failure | Failure[];
 
 declare class ContextCollection implements Contexts {
     private contexts;
@@ -141,4 +143,4 @@ declare class TraceCollection implements Traces {
     [Symbol.iterator](): Iterator<Trace>;
 }
 
-export { type AsyncOptionalResult, type AsyncResult, Awaiting, type Context, ContextCollection, type Contexts, type Either, Failure, None, type Optional, type OptionalResult, type Result, Some, Success, type Trace, TraceCollection, TraceCommon, type Traces, isAwaiting, isFailure, isNone, isSome, isSuccess };
+export { type AsyncOptionalResult, type AsyncResult, Awaiting, type Context, ContextCollection, type Contexts, type Either, Failure, None, type Optional, type OptionalResult, type Result, Some, Success, type Trace, TraceCollection, TraceCommon, type Traces, allSuccessful, hasFailure, isAwaiting, isFailure, isNone, isSome, isSuccess };
