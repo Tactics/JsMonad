@@ -79,14 +79,3 @@ export function isSuccess<T>(
 ): obj is Success<T> {
   return obj && (obj as Success<T>)[SuccessSymbol] === true;
 }
-
-export function allSuccessful<T>(
-  obj: AsyncResult<any> | AsyncResult<any>[],
-): obj is Success<T> | Success<T>[] {
-  if (Array.isArray(obj)) {
-    return obj.every(
-      (item) => item && (item as Success<T>)[SuccessSymbol] === true,
-    );
-  }
-  return obj && (obj as Success<T>)[SuccessSymbol] === true;
-}

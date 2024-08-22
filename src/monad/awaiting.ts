@@ -12,13 +12,6 @@ export class Awaiting implements AwaitingI {
 }
 
 // Returns 'True' when one value is instance of Awaiting.
-export function isAwaiting(
-  obj: AsyncResult<any> | AsyncResult<any>[],
-): obj is Awaiting | Awaiting[] {
-  if (Array.isArray(obj)) {
-    return obj.some(
-      (item) => item && (item as Awaiting)[AwaitingSymbol] === true,
-    );
-  }
+export function isAwaiting<T>(obj: AsyncResult<T>): obj is Awaiting {
   return obj && (obj as Awaiting)[AwaitingSymbol] === true;
 }
