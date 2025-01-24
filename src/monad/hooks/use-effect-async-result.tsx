@@ -6,8 +6,8 @@ import { Failure } from "@/monad/monads/either/failure";
 import isEqual from "fast-deep-equal";
 
 type Callbacks<T> = {
-  onSuccess?: (value: T) => void;
-  onFailure?: (error: string) => void;
+  onSuccess?: (value: Success<T>) => void;
+  onFailure?: (error: Failure) => void;
 };
 
 export function useEffectAsyncResult<T>(
@@ -42,10 +42,10 @@ export function useEffectAsyncResult<T>(
 
     if (hasStatusChanged || hasValueChanged) {
       if (result instanceof Success && onSuccess) {
-        onSuccess(result.unwrap());
+        onSuccess(result);
       }
       if (result instanceof Failure && onFailure) {
-        onFailure(result.unwrap());
+        onFailure(result);
       }
     }
 

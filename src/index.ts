@@ -27,3 +27,4 @@ export type {
 export { Awaiting, isAwaiting } from "@/monad/awaiting";
 
 export { useEffectAsyncResult } from "@/monad/hooks/use-effect-async-result";
+export { AsyncResultSuspense } from "@/monad/components/async-result-suspense";
