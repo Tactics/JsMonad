@@ -29,7 +29,7 @@ export function AsyncResultSuspense<T>(props: Props<T>) {
     },
   });
 
-  if (loading || !data) {
+  if (loading) {
     return <>{onAwaiting()}</>;
   }
 
@@ -40,4 +40,6 @@ export function AsyncResultSuspense<T>(props: Props<T>) {
   if (data) {
     return <>{onSuccess(data)}</>;
   }
+
+  return null;
 }
