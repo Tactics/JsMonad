@@ -6,7 +6,7 @@ import { Success } from "@/monad/monads/either/success";
 
 type Props<T> = {
   asyncResult: AsyncResult<T>;
-  onAwaiting: React.ReactNode;
+  onAwaiting: () => React.ReactNode;
   onFailure: (error: Failure) => React.ReactNode;
   onSuccess: (data: Success<T>) => React.ReactNode;
 };
@@ -30,7 +30,7 @@ export function AsyncResultSuspense<T>(props: Props<T>) {
   });
 
   if (loading || !data) {
-    return <>{onAwaiting}</>;
+    return <>{onAwaiting()}</>;
   }
 
   if (error) {

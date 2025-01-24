@@ -156,7 +156,7 @@ declare function useEffectAsyncResult<T>(result: AsyncResult<T>, { onSuccess, on
 
 type Props<T> = {
     asyncResult: AsyncResult<T>;
-    onAwaiting: React.ReactNode;
+    onAwaiting: () => React.ReactNode;
     onFailure: (error: Failure) => React.ReactNode;
     onSuccess: (data: Success<T>) => React.ReactNode;
 };
