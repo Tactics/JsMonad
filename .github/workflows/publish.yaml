@@ -1,9 +1,10 @@
-name: Publish
+name: Publish To NPM
 
 on:
-  push:
-    tags:
-      - '*'
+  workflow_run:
+    workflows: ["Tag"]  # The name of the workflow to watch
+    types:
+      - completed
 
 jobs:
     publish:
