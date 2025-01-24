@@ -1,6 +1,6 @@
 import { Optional } from "@/monad/optional";
 import { AsyncOptionalResult, OptionalResult } from "@/monad/result";
-import { None } from "@/monad/monads/optional/none";
+import { isNone, None } from "@/monad/monads/optional/none";
 
 const SomeSymbol = Symbol("JsMonadSomeSymbol");
 
@@ -8,6 +8,10 @@ export class Some<T> implements Optional<T> {
   private readonly value: T;
 
   [SomeSymbol] = true;
+
+  static [Symbol.hasInstance](obj: any): boolean {
+    return isSome(obj);
+  }
 
   private constructor(value: T) {
     this.value = value;

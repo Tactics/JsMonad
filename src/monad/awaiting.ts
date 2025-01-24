@@ -1,5 +1,6 @@
 // Step 1: Create a unique symbol to tag the class
-import { AsyncResult } from "@/monad/result";
+import { AsyncResult, Result } from "@/monad/result";
+import { Success } from "@/monad/monads/either/success";
 
 const AwaitingSymbol = Symbol("JsMonadAwaitingSymbol");
 

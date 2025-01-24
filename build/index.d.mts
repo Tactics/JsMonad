@@ -22,6 +22,7 @@ declare class Success<T> implements Either<T> {
     private readonly traces;
     private readonly contexts;
     [SuccessSymbol]: boolean;
+    static [Symbol.hasInstance](obj: any): boolean;
     private constructor();
     static of(value: any, traces?: Traces | null, contexts?: Contexts | null): Success<any>;
     bind(fn: (value: T) => Result<T>): Result<T>;
@@ -46,6 +47,7 @@ interface Optional<T> {
 declare const NoneSymbol: unique symbol;
 declare class None implements Optional<never> {
     [NoneSymbol]: boolean;
+    static [Symbol.hasInstance](obj: any): boolean;
     static of(): None;
     bind(fn: (value: never) => Optional<never>): None;
     unwrap(): never;
@@ -57,6 +59,7 @@ declare const SomeSymbol: unique symbol;
 declare class Some<T> implements Optional<T> {
     private readonly value;
     [SomeSymbol]: boolean;
+    static [Symbol.hasInstance](obj: any): boolean;
     private constructor();
     static of<T>(value: T): Some<T>;
     bind<U>(fn: (value: T) => Optional<U>): Optional<U>;
@@ -100,6 +103,7 @@ declare class Failure implements Either<never>, Error {
     name: string;
     previous: Error | null;
     [FailureSymbol]: boolean;
+    static [Symbol.hasInstance](obj: any): boolean;
     private constructor();
     static dueTo(message: string, code: string, previous?: Error | null, trace?: Trace | null, traces?: Traces | null, contexts?: Contexts | null): Failure;
     bind(fn: (value: never) => Result<never>): Result<never>;
@@ -141,4 +145,10 @@ declare class TraceCollection implements Traces {
     [Symbol.iterator](): Iterator<Trace>;
 }
 
-export { type AsyncOptionalResult, type AsyncResult, Awaiting, type Context, ContextCollection, type Contexts, type Either, Failure, None, type Optional, type OptionalResult, type Result, Some, Success, type Trace, TraceCollection, TraceCommon, type Traces, isAwaiting, isFailure, isNone, isSome, isSuccess };
+type Callbacks<T> = {
+    onSuccess?: (value: T) => void;
+    onFailure?: (error: string) => void;
+};
+declare function useEffectAsyncResult<T>(result: AsyncResult<T>, { onSuccess, onFailure }: Callbacks<T>): void;
+
+export { type AsyncOptionalResult, type AsyncResult, Awaiting, type Context, ContextCollection, type Contexts, type Either, Failure, None, type Optional, type OptionalResult, type Result, Some, Success, type Trace, TraceCollection, TraceCommon, type Traces, isAwaiting, isFailure, isNone, isSome, isSuccess, useEffectAsyncResult };

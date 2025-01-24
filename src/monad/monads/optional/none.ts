@@ -1,11 +1,16 @@
 // Define the None class implementing the Optional interface
 import { Optional } from "@/monad/optional";
 import { AsyncOptionalResult, OptionalResult } from "@/monad/result";
+import { isFailure } from "@/monad/monads/either/failure";
 
 const NoneSymbol = Symbol("JsMonadNoneSymbol");
 
 export class None implements Optional<never> {
   [NoneSymbol] = true;
+
+  static [Symbol.hasInstance](obj: any): boolean {
+    return isNone(obj);
+  }
 
   static of(): None {
     return new None();

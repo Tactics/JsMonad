@@ -16,6 +16,10 @@ export class Success<T> implements Either<T> {
   private readonly contexts: Contexts;
   [SuccessSymbol] = true;
 
+  static [Symbol.hasInstance](obj: any): boolean {
+    return isSuccess(obj);
+  }
+
   private constructor(value: T, traces: Traces, contexts: Contexts) {
     this.value = value;
     this.traces = traces;

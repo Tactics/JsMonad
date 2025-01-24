@@ -7,6 +7,7 @@ import { Context } from "@/monad/context/context";
 import { TraceCollection } from "@/monad/trace/trace-collection";
 import { TraceCommon } from "@/monad/trace/trace-common";
 import { ContextCollection } from "@/monad/context/context-collection";
+import { isSuccess } from "@/monad/monads/either/success";
 
 const FailureSymbol = Symbol("JsMonadFailureSymbol");
 
@@ -19,6 +20,10 @@ export class Failure implements Either<never>, Error {
   previous: Error | null;
 
   [FailureSymbol] = true;
+
+  static [Symbol.hasInstance](obj: any): boolean {
+    return isFailure(obj);
+  }
 
   private constructor(
     message: string,
