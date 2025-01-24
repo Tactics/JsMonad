@@ -157,9 +157,9 @@ declare function useEffectAsyncResult<T>(result: AsyncResult<T>, { onSuccess, on
 type Props<T> = {
     asyncResult: AsyncResult<T>;
     onLoading: React.ReactNode;
-    onError: (data: Failure) => React.ReactNode;
+    onError: (error: Failure) => React.ReactNode;
     onSuccess: (data: Success<T>) => React.ReactNode;
 };
-declare function AsyncResultSuspense<T>({ asyncResult, onLoading, onError, onSuccess, }: Props<T>): react_jsx_runtime.JSX.Element;
+declare function AsyncResultSuspense<T>(props: Props<T>): react_jsx_runtime.JSX.Element | null;
 
 export { type AsyncOptionalResult, type AsyncResult, AsyncResultSuspense, Awaiting, type Context, ContextCollection, type Contexts, type Either, Failure, None, type Optional, type OptionalResult, type Result, Some, Success, type Trace, TraceCollection, TraceCommon, type Traces, isAwaiting, isFailure, isNone, isSome, isSuccess, useEffectAsyncResult };

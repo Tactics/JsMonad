@@ -1,22 +1,19 @@
-import { AsyncResult as AsyncResultType } from "@/monad/result";
+import { AsyncResult } from "@/monad/result";
 import React, { useState } from "react";
 import useEffectAsyncResult from "@/monad/hooks/use-effect-async-result";
 import { Failure } from "@/monad/monads/either/failure";
 import { Success } from "@/monad/monads/either/success";
 
 type Props<T> = {
-  asyncResult: AsyncResultType<T>;
+  asyncResult: AsyncResult<T>;
   onLoading: React.ReactNode;
-  onError: (data: Failure) => React.ReactNode;
+  onError: (error: Failure) => React.ReactNode;
   onSuccess: (data: Success<T>) => React.ReactNode;
 };
 
-export function AsyncResultSuspense<T>({
-  asyncResult,
-  onLoading,
-  onError,
-  onSuccess,
-}: Props<T>) {
+export function AsyncResultSuspense<T>(props: Props<T>) {
+  const { asyncResult, onLoading, onError, onSuccess } = props;
+
   const [data, setData] = useState<Success<T> | null>(null);
   const [error, setError] = useState<Failure | false>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,7 +29,7 @@ export function AsyncResultSuspense<T>({
     },
   });
 
-  if (loading || !data) {
+  if (loading) {
     return <>{onLoading}</>;
   }
 
@@ -40,5 +37,9 @@ export function AsyncResultSuspense<T>({
     return <>{onError(error)}</>;
   }
 
-  return <>{onSuccess(data)}</>;
+  if (data) {
+    return <>{onSuccess(data)}</>;
+  }
+
+  return null;
 }
