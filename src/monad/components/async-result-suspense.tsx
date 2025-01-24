@@ -6,13 +6,13 @@ import { Success } from "@/monad/monads/either/success";
 
 type Props<T> = {
   asyncResult: AsyncResult<T>;
-  onLoading: React.ReactNode;
-  onError: (error: Failure) => React.ReactNode;
+  onAwaiting: React.ReactNode;
+  onFailure: (error: Failure) => React.ReactNode;
   onSuccess: (data: Success<T>) => React.ReactNode;
 };
 
 export function AsyncResultSuspense<T>(props: Props<T>) {
-  const { asyncResult, onLoading, onError, onSuccess } = props;
+  const { asyncResult, onAwaiting, onFailure, onSuccess } = props;
 
   const [data, setData] = useState<Success<T> | null>(null);
   const [error, setError] = useState<Failure | false>(false);
@@ -29,17 +29,15 @@ export function AsyncResultSuspense<T>(props: Props<T>) {
     },
   });
 
-  if (loading) {
-    return <>{onLoading}</>;
+  if (loading || !data) {
+    return <>{onAwaiting}</>;
   }
 
   if (error) {
-    return <>{onError(error)}</>;
+    return <>{onFailure(error)}</>;
   }
 
   if (data) {
     return <>{onSuccess(data)}</>;
   }
-
-  return null;
 }
